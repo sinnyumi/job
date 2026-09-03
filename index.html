@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>진학 박람회 참가자 인적사항</title>
+<style>
+  :root{
+    --ink:#1B2A38;
+    --ink-soft:#3E5468;
+    --paper:#F7F7F3;
+    --card:#FFFFFF;
+    --line:#E1DED4;
+    --gold:#C08A2E;
+    --gold-soft:#F1E3C6;
+    --teal:#33574F;
+    --teal-soft:#E7EFEC;
+    --text:#22303B;
+    --text-mute:#6B7B84;
+    --danger:#B4472F;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",sans-serif;
+    color:var(--text);
+    padding:40px 16px 80px;
+  }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+  }
+
+  /* Header band */
+  .header{
+    background:var(--ink);
+    color:#F4F1E8;
+    border-radius:14px 14px 0 0;
+    padding:34px 36px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  .header::after{
+    content:"";
+    position:absolute;
+    right:-40px; top:-40px;
+    width:160px; height:160px;
+    border-radius:50%;
+    border:1px solid rgba(244,241,232,0.15);
+  }
+  .eyebrow-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    letter-spacing:0.02em;
+    color:var(--gold-soft);
+    background:rgba(192,138,46,0.18);
+    border:1px solid rgba(192,138,46,0.4);
+    padding:4px 12px;
+    border-radius:100px;
+    margin-bottom:16px;
+  }
+  .header h1{
+    font-family:Georgia,"Noto Serif KR",serif;
+    font-size:28px;
+    font-weight:600;
+    margin:0 0 8px;
+    line-height:1.35;
+  }
+  .header p{
+    margin:0;
+    font-size:14.5px;
+    color:#C9CFCE;
+    line-height:1.6;
+    max-width:520px;
+  }
+
+  /* Progress */
+  .progress-row{
+    background:var(--card);
+    padding:20px 36px 4px;
+    display:flex;
+    align-items:center;
+    gap:0;
+  }
+  .step{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex:1;
+  }
+  .step-num{
+    width:26px;height:26px;
+    border-radius:50%;
+    border:1.5px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--text-mute);
+    background:#fff;
+    flex-shrink:0;
+    transition:all .25s ease;
+  }
+  .step.active .step-num{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#fff;
+  }
+  .step.done .step-num{
+    border-color:var(--teal);
+    background:var(--teal);
+    color:#fff;
+  }
+  .step-label{
+    font-size:13px;
+    color:var(--text-mute);
+    font-weight:500;
+    white-space:nowrap;
+  }
+  .step.active .step-label{color:var(--ink);font-weight:700;}
+  .step-line{
+    flex:1;
+    height:1px;
+    background:var(--line);
+    margin:0 8px;
+  }
+
+  /* Card body */
+  .card{
+    background:var(--card);
+    border-radius:0 0 14px 14px;
+    box-shadow:0 1px 3px rgba(20,30,40,0.06);
+    padding:8px 36px 36px;
+  }
+
+  .section{display:none;}
+  .section.visible{display:block;}
+
+  .section-title{
+    font-size:15px;
+    font-weight:700;
+    color:var(--teal);
+    margin:28px 0 4px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .section-desc{
+    font-size:13px;
+    color:var(--text-mute);
+    margin:6px 0 22px;
+  }
+
+  .field-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px 20px;
+    margin-bottom:6px;
+  }
+  .field-grid.single{grid-template-columns:1fr;}
+
+  .field{margin-bottom:22px;}
+  .field label{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    font-size:14px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+  .required-dot{
+    color:var(--danger);
+    font-size:14px;
+    line-height:1;
+  }
+  .hint{
+    font-size:12.5px;
+    color:var(--text-mute);
+    margin-top:6px;
+  }
+  input[type="text"], input[type="tel"], input[type="number"], select{
+    width:100%;
+    padding:11px 13px;
+    font-size:14.5px;
+    border:1.4px solid var(--line);
+    border-radius:9px;
+    background:#FDFCFA;
+    color:var(--text);
+    font-family:inherit;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus, select:focus{
+    outline:none;
+    border-color:var(--teal);
+    box-shadow:0 0 0 3px rgba(51,87,79,0.12);
+  }
+  select{appearance:none; background:#FDFCFA url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%236B7B84" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 12px center;}
+
+  /* Autocomplete (학교명 검색) */
+  .autocomplete-wrap{position:relative;}
+  .ac-list{
+    position:absolute;
+    top:calc(100% + 6px);
+    left:0; right:0;
+    background:#fff;
+    border:1.4px solid var(--line);
+    border-radius:9px;
+    max-height:230px;
+    overflow-y:auto;
+    box-shadow:0 10px 24px rgba(20,30,40,0.14);
+    z-index:30;
+    display:none;
+  }
+  .ac-list.open{display:block;}
+  .ac-item{
+    padding:11px 14px;
+    font-size:14px;
+    color:var(--text);
+    cursor:pointer;
+    border-bottom:1px solid #F1EFE8;
+  }
+  .ac-item:last-child{border-bottom:none;}
+  .ac-item mark{
+    background:var(--gold-soft);
+    color:var(--gold);
+    font-weight:700;
+    border-radius:3px;
+    padding:0 1px;
+  }
+  .ac-item:hover, .ac-item.active{background:var(--teal-soft);}
+  .ac-empty{
+    padding:14px;
+    font-size:13px;
+    color:var(--text-mute);
+    text-align:center;
+  }
+  .field.confirmed input[type="text"]{
+    border-color:var(--teal);
+    background:var(--teal-soft);
+  }
+
+  .unit-input{position:relative;}
+  .unit-input input{padding-right:44px;}
+  .unit-suffix{
+    position:absolute;
+    right:13px; top:50%;
+    transform:translateY(-50%);
+    font-size:13px;
+    color:var(--text-mute);
+    pointer-events:none;
+  }
+
+  /* Scale (interest level) */
+  .scale-row{
+    display:flex;
+    gap:8px;
+  }
+  .scale-opt{
+    flex:1;
+    text-align:center;
+    padding:12px 4px 10px;
+    border:1.4px solid var(--line);
+    border-radius:9px;
+    cursor:pointer;
+    font-size:12.5px;
+    color:var(--text-mute);
+    background:#FDFCFA;
+    transition:all .15s ease;
+    user-select:none;
+  }
+  .scale-opt .num{
+    display:block;
+    font-size:16px;
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:3px;
+  }
+  .scale-opt:hover{border-color:var(--gold);}
+  .scale-opt.picked{
+    border-color:var(--gold);
+    background:var(--gold-soft);
+  }
+  .scale-opt.picked .num{color:var(--gold);}
+  .scale-caption{
+    display:flex;
+    justify-content:space-between;
+    font-size:11.5px;
+    color:var(--text-mute);
+    margin-top:6px;
+  }
+
+  /* Pill toggle */
+  .pill-row{display:flex; gap:8px;}
+  .pill-opt{
+    flex:1;
+    text-align:center;
+    padding:11px 8px;
+    border:1.4px solid var(--line);
+    border-radius:100px;
+    cursor:pointer;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--text-mute);
+    background:#FDFCFA;
+    transition:all .15s ease;
+    user-select:none;
+  }
+  .pill-opt:hover{border-color:var(--teal);}
+  .pill-opt.picked{
+    border-color:var(--teal);
+    background:var(--teal);
+    color:#fff;
+  }
+
+  /* Nav buttons */
+  .nav-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:32px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .btn{
+    padding:12px 24px;
+    border-radius:9px;
+    font-size:14.5px;
+    font-weight:700;
+    cursor:pointer;
+    border:none;
+    transition:transform .1s ease, opacity .15s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--text-mute);
+    border:1.4px solid var(--line);
+  }
+  .btn-ghost:hover{color:var(--text);border-color:var(--ink-soft);}
+  .btn-primary{
+    background:var(--ink);
+    color:#fff;
+  }
+  .btn-primary:hover{background:var(--ink-soft);}
+  .btn-submit{
+    background:var(--gold);
+    color:#fff;
+  }
+  .btn-submit:hover{opacity:.9;}
+  .btn-invisible{visibility:hidden;}
+
+  .note-box{
+    background:var(--teal-soft);
+    border-radius:9px;
+    padding:14px 16px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin-top:24px;
+  }
+
+  @media (max-width:560px){
+    body{padding:20px 10px 60px;}
+    .header{padding:26px 22px 22px;}
+    .header h1{font-size:22px;}
+    .progress-row{padding:16px 22px 4px;}
+    .card{padding:6px 22px 28px;}
+    .field-grid{grid-template-columns:1fr;gap:0;}
+    .step-label{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <span class="eyebrow-badge">대전생활과학고 2026 진로·진학 박람회</span>
+    <h1>참가자 인적사항 조사</h1>
+    <p>박람회 부스 방문을 환영합니다. 아래 정보를 입력해 주시면 상담 자료로만 활용되며, 약 2분이 소요됩니다.</p>
+  </div>
+
+  <div class="progress-row">
+    <div class="step active" data-step="1">
+      <div class="step-num">1</div>
+      <div class="step-label">기본 인적사항</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" data-step="2">
+      <div class="step-num">2</div>
+      <div class="step-label">진학 관련 정보</div>
+    </div>
+  </div>
+
+  <div class="card">
+
+    <!-- SECTION 1 -->
+    <section class="section visible" id="section-1">
+      <div class="section-title">기본 인적사항</div>
+      <div class="section-desc">이름과 연락처, 재학 중인 중학교를 입력해 주세요.</div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label>이름 <span class="required-dot">*</span></label>
+          <input type="text" id="f-name" placeholder="예: 김민준">
+        </div>
+        <div class="field">
+          <label>연락처 <span class="required-dot">*</span></label>
+          <input type="tel" id="f-phone" placeholder="예: 010-1234-5678">
+        </div>
+      </div>
+
+      <div class="field-grid single">
+        <div class="field autocomplete-wrap">
+          <label>중학교명 <span class="required-dot">*</span></label>
+          <input type="text" id="f-school-input" placeholder="학교명 일부를 입력하세요 (예: 대전, 검정고시, 타지역)" autocomplete="off">
+          <input type="hidden" id="f-school">
+          <div class="ac-list" id="ac-list"></div>
+          <div class="hint">목록에서 원하는 항목을 선택해 주세요. 직접 입력한 글자만으로는 제출되지 않아요.</div>
+        </div>
+      </div>
+
+      <div class="field-grid single" id="otherRegionField" style="display:none;">
+        <div class="field">
+          <label>거주(재학) 지역 <span class="required-dot">*</span></label>
+          <input type="text" id="f-region-other" placeholder="예: 세종특별자치시, 충북 청주시 등">
+          <div class="hint">타지역을 선택하신 경우, 어느 지역인지 입력해 주세요.</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="section" id="section-2">
+      <div class="section-title">진학 관련 정보</div>
+      <div class="section-desc">대전생활과학고에 대한 관심도와 진학 계획을 알려주세요.</div>
+
+      <div class="field">
+        <label>대전생활과학고 관심 정도 <span class="required-dot">*</span></label>
+        <div class="scale-row">
+          <div class="scale-opt" data-val="1"><span class="num">1</span></div>
+          <div class="scale-opt" data-val="2"><span class="num">2</span></div>
+          <div class="scale-opt picked" data-val="3"><span class="num">3</span></div>
+          <div class="scale-opt" data-val="4"><span class="num">4</span></div>
+          <div class="scale-opt" data-val="5"><span class="num">5</span></div>
+        </div>
+        <div class="scale-caption"><span>전혀 관심 없음</span><span>매우 관심 있음</span></div>
+      </div>
+
+      <div class="field">
+        <label>직업계고 진학 여부 <span class="required-dot">*</span></label>
+        <div class="pill-row" id="pathPillRow">
+          <div class="pill-opt picked">예</div>
+          <div class="pill-opt">아니오</div>
+          <div class="pill-opt">아직 미정</div>
+        </div>
+      </div>
+
+      <div class="field-grid" id="majorField">
+        <div class="field">
+          <label>희망 학과 1순위 <span class="required-dot">*</span></label>
+          <select id="f-major1">
+            <option value="">1순위를 선택하세요</option>
+            <option>바이오제약과(제약)</option>
+            <option>바이오의료전기과(전기)</option>
+            <option>바이오플랜트과(건축)</option>
+            <option>바이오푸드과(조리제빵)</option>
+            <option>바이오코스메틱과(뷰티)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>희망 학과 2순위 <span class="required-dot">*</span></label>
+          <select id="f-major2">
+            <option value="">2순위를 선택하세요</option>
+            <option>바이오제약과(제약)</option>
+            <option>바이오의료전기과(전기)</option>
+            <option>바이오플랜트과(건축)</option>
+            <option>바이오푸드과(조리제빵)</option>
+            <option>바이오코스메틱과(뷰티)</option>
+          </select>
+          <div class="hint">1순위와 다른 학과를 선택해 주세요.</div>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label>내신 점수(300점 만점) <span class="required-dot">*</span></label>
+          <div class="unit-input">
+            <input type="number" id="f-gpa" placeholder="예: 275" min="0" max="300" step="1">
+            <span class="unit-suffix">점</span>
+          </div>
+          <div class="hint">0~300 사이의 점수를 입력해 주세요.</div>
+        </div>
+        <div class="field"></div>
+      </div>
+
+      <div class="note-box">
+        입력하신 정보는 박람회 상담 및 학교 안내 목적으로만 사용되며, 행사 종료 후 안전하게 처리됩니다.
+      </div>
+    </section>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="prevBtn" onclick="goStep(-1)">이전</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="goStep(1)">다음</button>
+      <button class="btn btn-submit btn-invisible" id="submitBtn">제출하기</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ▼▼▼ 여기에 2단계에서 복사한 Apps Script 웹 앱 URL을 붙여넣으세요 ▼▼▼
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxohoSZsXJwnjtfmKhesbZNNFlO9jnqfWglnXS9d0HS3-cHmBTCTTrjG3KVFt_reYQ-/exec";
+  // ▲▲▲ ------------------------------------------------- ▲▲▲
+
+  let current = 1;
+  const total = 2;
+  let interestVal = 3;
+  let pathwayVal = "예";
+
+  // 실제 학교 목록 (검정고시 / 타지역 포함)
+  const SCHOOLS = [
+    "대전가수원중학교","대전가양중학교","대전가오중학교","대전갈마중학교","대전갑천중학교",
+    "대전경덕중학교","대전관저중학교","대전관평중학교","대전괴정중학교","대전구봉중학교",
+    "대전글꽃중학교","대전기성중학교","대전남선중학교","대전내동중학교","대전노은중학교",
+    "대전느리울중학교","대전대덕중학교","대전대문중학교","대전대성여자중학교","대전대성중학교",
+    "대전대신중학교","대전대청중학교","대전대화중학교","대전덕명중학교","대전도마중학교",
+    "대전도안중학교","대전동명중학교","대전동산중학교","대전동화중학교","대전두리중학교",
+    "대전둔곡중학교","대전둔산중학교","대전둔원중학교","대전만년중학교","대전매봉중학교",
+    "대전문정중학교","대전문지중학교","대전문화여자중학교","대전버드내중학교","대전법동중학교",
+    "대전변동중학교","대전봉명중학교","대전봉산중학교","대전봉우중학교","대전삼육중학교",
+    "대전삼천중학교","대전새미래중학교","대전서중학교","대전성덕중학교","대전송강중학교",
+    "대전송촌중학교","대전신계중학교","대전신일중학교","대전어은중학교","대전여자중학교",
+    "대전외삼중학교","대전용운중학교","대전용전중학교","대전원신흥중학교","대전월평중학교",
+    "대전유성중학교","대전은어송중학교","대전자운중학교","대전장대중학교","대전전민중학교",
+    "대전정림중학교","대전중앙중학교","대전중학교","대전지족중학교","대전진잠중학교",
+    "대전체육중학교","대전탄방중학교","대전태평중학교","대전하기중학교","동대전중학교",
+    "동방여자중학교","동신중학교","보문중학교","신탄중앙중학교","신탄진중학교",
+    "오정중학교","우송중학교","중리중학교","청란여자중학교","충남여자중학교",
+    "충남중학교","한밭여자중학교","한밭중학교","호수돈여자중학교","회덕중학교",
+    "검정고시","타지역"
+  ];
+
+  const schoolInput = document.getElementById('f-school-input');
+  const schoolHidden = document.getElementById('f-school');
+  const acList = document.getElementById('ac-list');
+  let acActiveIndex = -1;
+  let acFiltered = [];
+
+  function renderSchoolList(query){
+    acFiltered = SCHOOLS.filter(s => s.includes(query));
+    acActiveIndex = -1;
+
+    if(query === ''){
+      acList.classList.remove('open');
+      acList.innerHTML = '';
+      return;
+    }
+    if(acFiltered.length === 0){
+      acList.innerHTML = '<div class="ac-empty">일치하는 학교가 없어요. 다시 입력해 주세요.</div>';
+      acList.classList.add('open');
+      return;
+    }
+    acList.innerHTML = acFiltered.map((s, i) => {
+      const idx = s.indexOf(query);
+      const marked = idx >= 0
+        ? s.slice(0, idx) + '<mark>' + s.slice(idx, idx+query.length) + '</mark>' + s.slice(idx+query.length)
+        : s;
+      return '<div class="ac-item" data-idx="' + i + '">' + marked + '</div>';
+    }).join('');
+    acList.classList.add('open');
+  }
+
+  function pickSchool(name){
+    schoolInput.value = name;
+    schoolHidden.value = name;
+    schoolInput.closest('.field').classList.add('confirmed');
+    acList.classList.remove('open');
+
+    const otherField = document.getElementById('otherRegionField');
+    if(name === '타지역'){
+      otherField.style.display = 'grid';
+      document.getElementById('f-region-other').focus();
+    } else {
+      otherField.style.display = 'none';
+      document.getElementById('f-region-other').value = '';
+    }
+  }
+
+  schoolInput.addEventListener('input', ()=>{
+    schoolHidden.value = ''; // 목록에서 다시 고르기 전까지는 미확정 상태
+    schoolInput.closest('.field').classList.remove('confirmed');
+    document.getElementById('otherRegionField').style.display = 'none';
+    renderSchoolList(schoolInput.value.trim());
+  });
+
+  schoolInput.addEventListener('focus', ()=>{
+    if(schoolInput.value.trim() !== '') renderSchoolList(schoolInput.value.trim());
+  });
+
+  schoolInput.addEventListener('keydown', (e)=>{
+    const items = acList.querySelectorAll('.ac-item');
+    if(!acList.classList.contains('open') || items.length === 0) return;
+
+    if(e.key === 'ArrowDown'){
+      e.preventDefault();
+      acActiveIndex = Math.min(items.length - 1, acActiveIndex + 1);
+    } else if(e.key === 'ArrowUp'){
+      e.preventDefault();
+      acActiveIndex = Math.max(0, acActiveIndex - 1);
+    } else if(e.key === 'Enter'){
+      e.preventDefault();
+      if(acActiveIndex >= 0) pickSchool(acFiltered[acActiveIndex]);
+      return;
+    } else if(e.key === 'Escape'){
+      acList.classList.remove('open');
+      return;
+    } else {
+      return;
+    }
+    items.forEach((it, i) => it.classList.toggle('active', i === acActiveIndex));
+    items[acActiveIndex]?.scrollIntoView({block:'nearest'});
+  });
+
+  acList.addEventListener('mousedown', (e)=>{
+    const item = e.target.closest('.ac-item');
+    if(!item) return;
+    const idx = parseInt(item.dataset.idx);
+    pickSchool(acFiltered[idx]);
+  });
+
+  document.addEventListener('click', (e)=>{
+    if(!e.target.closest('.autocomplete-wrap')) acList.classList.remove('open');
+  });
+
+  function render(){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+    document.getElementById('section-'+current).classList.add('visible');
+
+    document.querySelectorAll('.step').forEach(st=>{
+      const n = parseInt(st.dataset.step);
+      st.classList.remove('active','done');
+      if(n < current) st.classList.add('done');
+      if(n === current) st.classList.add('active');
+    });
+
+    document.getElementById('prevBtn').style.visibility = current === 1 ? 'hidden' : 'visible';
+    const isLast = current === total;
+    document.getElementById('nextBtn').classList.toggle('btn-invisible', isLast);
+    document.getElementById('submitBtn').classList.toggle('btn-invisible', !isLast);
+  }
+
+  function goStep(dir){
+    current = Math.min(total, Math.max(1, current + dir));
+    render();
+  }
+
+  document.querySelectorAll('.scale-opt').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      document.querySelectorAll('.scale-opt').forEach(o=>o.classList.remove('picked'));
+      el.classList.add('picked');
+      interestVal = el.dataset.val;
+    });
+  });
+  document.querySelectorAll('.pill-row').forEach(row=>{
+    row.querySelectorAll('.pill-opt').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        row.querySelectorAll('.pill-opt').forEach(o=>o.classList.remove('picked'));
+        el.classList.add('picked');
+        if(row.id === 'pathPillRow'){
+          pathwayVal = el.textContent.trim();
+          const isNo = pathwayVal === '아니오';
+          document.getElementById('majorField').style.display = isNo ? 'none' : 'grid';
+        }
+      });
+    });
+  });
+
+  document.getElementById('submitBtn').addEventListener('click', async ()=>{
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const school = document.getElementById('f-school').value;
+    const gpa = document.getElementById('f-gpa').value.trim();
+    const majorHidden = document.getElementById('majorField').style.display === 'none';
+    const major1 = majorHidden ? '' : document.getElementById('f-major1').value;
+    const major2 = majorHidden ? '' : document.getElementById('f-major2').value;
+
+    // 필수값 확인
+    if(!name || !phone || !gpa || (!majorHidden && (!major1 || !major2))){
+      alert('필수 항목(*)을 모두 입력해 주세요.');
+      return;
+    }
+    if(!majorHidden && major1 === major2){
+      alert('희망 학과 1순위와 2순위는 서로 다르게 선택해 주세요.');
+      return;
+    }
+    const gpaNum = Number(gpa);
+    if(isNaN(gpaNum) || gpaNum < 0 || gpaNum > 300){
+      alert('내신 점수는 0~300 사이의 숫자로 입력해 주세요.');
+      return;
+    }
+    if(!school){
+      alert('중학교명은 목록에 뜬 항목을 클릭해서 선택해 주세요.');
+      schoolInput.focus();
+      return;
+    }
+    let regionOther = '';
+    if(school === '타지역'){
+      regionOther = document.getElementById('f-region-other').value.trim();
+      if(!regionOther){
+        alert('타지역을 선택하셨어요. 어느 지역인지 입력해 주세요.');
+        document.getElementById('f-region-other').focus();
+        return;
+      }
+    }
+    const phonePattern = /^01[0-9]-?[0-9]{3,4}-?[0-9]{4}$/;
+    if(!phonePattern.test(phone)){
+      alert('연락처 형식을 확인해 주세요. 예: 010-1234-5678');
+      return;
+    }
+    if(SCRIPT_URL.includes('여기에')){
+      alert('아직 데이터를 저장할 주소(SCRIPT_URL)가 설정되지 않았어요. 관리자에게 문의해 주세요.');
+      return;
+    }
+
+    const payload = {
+      name, phone,
+      school: school === '타지역' ? `타지역(${regionOther})` : school,
+      interest: interestVal,
+      pathway: pathwayVal,
+      major1: major1 || '(해당없음)',
+      major2: major2 || '(해당없음)',
+      gpa
+    };
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+
+    try{
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // 구글 앱스 스크립트 응답을 읽지는 않지만 전송은 정상 처리됨
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      document.querySelector('.card').innerHTML =
+        '<div style="text-align:center; padding:60px 20px;">' +
+        '<div style="font-size:20px; font-weight:700; color:var(--teal); margin-bottom:10px;">제출해주셔서 감사합니다</div>' +
+        '<div style="font-size:14px; color:var(--text-mute);">참가 확인은 현장에서 안내드립니다.</div>' +
+        '</div>';
+    }catch(err){
+      alert('전송 중 문제가 발생했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.');
+      btn.disabled = false;
+      btn.textContent = '제출하기';
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>
