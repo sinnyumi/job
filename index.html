@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>진학 박람회 참가자 인적사항</title>
+<title>대전생활과학고등학교 DJ직업계고 박람회 참가자 인적사항</title>
 <style>
   :root{
     --ink:#1B2A38;
@@ -32,8 +32,6 @@
     max-width:720px;
     margin:0 auto;
   }
-
-  /* Header band */
   .header{
     background:var(--ink);
     color:#F4F1E8;
@@ -77,8 +75,6 @@
     line-height:1.6;
     max-width:520px;
   }
-
-  /* Progress */
   .progress-row{
     background:var(--card);
     padding:20px 36px 4px;
@@ -127,18 +123,14 @@
     background:var(--line);
     margin:0 8px;
   }
-
-  /* Card body */
   .card{
     background:var(--card);
     border-radius:0 0 14px 14px;
     box-shadow:0 1px 3px rgba(20,30,40,0.06);
     padding:8px 36px 36px;
   }
-
   .section{display:none;}
   .section.visible{display:block;}
-
   .section-title{
     font-size:15px;
     font-weight:700;
@@ -152,7 +144,6 @@
     color:var(--text-mute);
     margin:6px 0 22px;
   }
-
   .field-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -160,7 +151,6 @@
     margin-bottom:6px;
   }
   .field-grid.single{grid-template-columns:1fr;}
-
   .field{margin-bottom:22px;}
   .field label{
     display:flex;
@@ -198,8 +188,6 @@
     box-shadow:0 0 0 3px rgba(51,87,79,0.12);
   }
   select{appearance:none; background:#FDFCFA url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%236B7B84" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 12px center;}
-
-  /* Autocomplete (학교명 검색) */
   .autocomplete-wrap{position:relative;}
   .ac-list{
     position:absolute;
@@ -241,7 +229,27 @@
     border-color:var(--teal);
     background:var(--teal-soft);
   }
-
+  .checkbox-row{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin-top:10px;
+    font-size:13px;
+    font-weight:500;
+    color:var(--text-mute);
+    cursor:pointer;
+    user-select:none;
+  }
+  .checkbox-row input[type="checkbox"]{
+    width:16px; height:16px;
+    accent-color:var(--teal);
+    cursor:pointer;
+  }
+  input:disabled{
+    background:#F0EFEA;
+    color:var(--text-mute);
+    cursor:not-allowed;
+  }
   .unit-input{position:relative;}
   .unit-input input{padding-right:44px;}
   .unit-suffix{
@@ -252,8 +260,6 @@
     color:var(--text-mute);
     pointer-events:none;
   }
-
-  /* Scale (interest level) */
   .scale-row{
     display:flex;
     gap:8px;
@@ -291,8 +297,6 @@
     color:var(--text-mute);
     margin-top:6px;
   }
-
-  /* Pill toggle */
   .pill-row{display:flex; gap:8px;}
   .pill-opt{
     flex:1;
@@ -314,8 +318,43 @@
     background:var(--teal);
     color:#fff;
   }
-
-  /* Nav buttons */
+  .consent-box{
+    background:var(--teal-soft);
+    border-radius:9px;
+    padding:16px 18px;
+    margin-top:24px;
+  }
+  .consent-box .consent-text{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin-bottom:12px;
+  }
+  .consent-pill-row{display:flex; gap:8px;}
+  .consent-opt{
+    flex:1;
+    text-align:center;
+    padding:10px 8px;
+    border:1.4px solid var(--line);
+    border-radius:100px;
+    cursor:pointer;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--text-mute);
+    background:#fff;
+    transition:all .15s ease;
+    user-select:none;
+  }
+  .consent-opt:hover{border-color:var(--teal);}
+  .consent-opt.picked{
+    border-color:var(--teal);
+    background:var(--teal);
+    color:#fff;
+  }
+  .consent-opt.picked.deny{
+    border-color:var(--danger);
+    background:var(--danger);
+  }
   .nav-row{
     display:flex;
     justify-content:space-between;
@@ -351,17 +390,6 @@
   }
   .btn-submit:hover{opacity:.9;}
   .btn-invisible{visibility:hidden;}
-
-  .note-box{
-    background:var(--teal-soft);
-    border-radius:9px;
-    padding:14px 16px;
-    font-size:12.5px;
-    color:var(--ink-soft);
-    line-height:1.6;
-    margin-top:24px;
-  }
-
   @media (max-width:560px){
     body{padding:20px 10px 60px;}
     .header{padding:26px 22px 22px;}
@@ -377,9 +405,9 @@
 <div class="wrap">
 
   <div class="header">
-    <span class="eyebrow-badge">대전생활과학고 2026 진로·진학 박람회</span>
+    <span class="eyebrow-badge">대전생활과학고 DJ직업계고 박람회</span>
     <h1>참가자 인적사항 조사</h1>
-    <p>박람회 부스 방문을 환영합니다. 아래 정보를 입력해 주시면 상담 자료로만 활용되며, 약 2분이 소요됩니다.</p>
+    <p>대전생활과학고등학교 부스 방문을 환영합니다. 아래 정보를 입력해 주세요.</p>
   </div>
 
   <div class="progress-row">
@@ -404,7 +432,7 @@
       <div class="field-grid">
         <div class="field">
           <label>이름 <span class="required-dot">*</span></label>
-          <input type="text" id="f-name" placeholder="예: 김민준">
+          <input type="text" id="f-name" lang="ko" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="예: 김00">
         </div>
         <div class="field">
           <label>연락처 <span class="required-dot">*</span></label>
@@ -415,7 +443,7 @@
       <div class="field-grid single">
         <div class="field autocomplete-wrap">
           <label>중학교명 <span class="required-dot">*</span></label>
-          <input type="text" id="f-school-input" placeholder="학교명 일부를 입력하세요 (예: 대전, 검정고시, 타지역)" autocomplete="off">
+          <input type="text" id="f-school-input" lang="ko" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="소속 학교명 입력하세요 (예: 대전, 검정고시, 타지역)" autocomplete="off">
           <input type="hidden" id="f-school">
           <div class="ac-list" id="ac-list"></div>
           <div class="hint">목록에서 원하는 항목을 선택해 주세요. 직접 입력한 글자만으로는 제출되지 않아요.</div>
@@ -424,9 +452,9 @@
 
       <div class="field-grid single" id="otherRegionField" style="display:none;">
         <div class="field">
-          <label>거주(재학) 지역 <span class="required-dot">*</span></label>
-          <input type="text" id="f-region-other" placeholder="예: 세종특별자치시, 충북 청주시 등">
-          <div class="hint">타지역을 선택하신 경우, 어느 지역인지 입력해 주세요.</div>
+          <label>타지역<span class="required-dot">*</span></label>
+          <input type="text" id="f-region-other" lang="ko" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="예: 서울00중학교 등">
+          <div class="hint">타지역을 선택하신 경우, 어느 학교인지 입력해 주세요.</div>
         </div>
       </div>
 
@@ -435,7 +463,16 @@
     <!-- SECTION 2 -->
     <section class="section" id="section-2">
       <div class="section-title">진학 관련 정보</div>
-      <div class="section-desc">대전생활과학고에 대한 관심도와 진학 계획을 알려주세요.</div>
+      <div class="section-desc">특성화고 진학 계획과 대전생활과학고에 대한 관심도를 알려주세요.</div>
+
+      <div class="field">
+        <label>특성화고 진학 여부 <span class="required-dot">*</span></label>
+        <div class="pill-row" id="pathPillRow">
+          <div class="pill-opt picked">예</div>
+          <div class="pill-opt">아니오</div>
+          <div class="pill-opt">아직 미정</div>
+        </div>
+      </div>
 
       <div class="field">
         <label>대전생활과학고 관심 정도 <span class="required-dot">*</span></label>
@@ -447,15 +484,6 @@
           <div class="scale-opt" data-val="5"><span class="num">5</span></div>
         </div>
         <div class="scale-caption"><span>전혀 관심 없음</span><span>매우 관심 있음</span></div>
-      </div>
-
-      <div class="field">
-        <label>직업계고 진학 여부 <span class="required-dot">*</span></label>
-        <div class="pill-row" id="pathPillRow">
-          <div class="pill-opt picked">예</div>
-          <div class="pill-opt">아니오</div>
-          <div class="pill-opt">아직 미정</div>
-        </div>
       </div>
 
       <div class="field-grid" id="majorField">
@@ -488,16 +516,26 @@
         <div class="field">
           <label>내신 점수(300점 만점) <span class="required-dot">*</span></label>
           <div class="unit-input">
-            <input type="number" id="f-gpa" placeholder="예: 275" min="0" max="300" step="1">
+            <input type="number" id="f-gpa" placeholder="예: 175" min="0" max="300" step="1">
             <span class="unit-suffix">점</span>
           </div>
           <div class="hint">0~300 사이의 점수를 입력해 주세요.</div>
+          <label class="checkbox-row">
+            <input type="checkbox" id="f-gpa-unknown">
+            <span>아직 점수를 몰라요</span>
+          </label>
         </div>
         <div class="field"></div>
       </div>
 
-      <div class="note-box">
-        입력하신 정보는 박람회 상담 및 학교 안내 목적으로만 사용되며, 행사 종료 후 안전하게 처리됩니다.
+      <div class="consent-box">
+        <div class="consent-text">
+          입력하신 정보는 박람회 상담 및 11월까지 진행되는 입학설명회 안내 목적으로 활용되며, 입시 절차가 모두 종료된 후 안전하게 파기됩니다. 개인정보 수집·이용에 동의하시나요? <span class="required-dot">*</span>
+        </div>
+        <div class="consent-pill-row" id="consentPillRow">
+          <div class="consent-opt">동의함</div>
+          <div class="consent-opt deny">동의안함</div>
+        </div>
       </div>
     </section>
 
@@ -519,8 +557,8 @@
   const total = 2;
   let interestVal = 3;
   let pathwayVal = "예";
+  let consentVal = ""; // "동의함" | "동의안함"
 
-  // 실제 학교 목록 (검정고시 / 타지역 포함)
   const SCHOOLS = [
     "대전가수원중학교","대전가양중학교","대전가오중학교","대전갈마중학교","대전갑천중학교",
     "대전경덕중학교","대전관저중학교","대전관평중학교","대전괴정중학교","대전구봉중학교",
@@ -590,7 +628,7 @@
   }
 
   schoolInput.addEventListener('input', ()=>{
-    schoolHidden.value = ''; // 목록에서 다시 고르기 전까지는 미확정 상태
+    schoolHidden.value = '';
     schoolInput.closest('.field').classList.remove('confirmed');
     document.getElementById('otherRegionField').style.display = 'none';
     renderSchoolList(schoolInput.value.trim());
@@ -633,6 +671,17 @@
 
   document.addEventListener('click', (e)=>{
     if(!e.target.closest('.autocomplete-wrap')) acList.classList.remove('open');
+  });
+
+  const gpaInput = document.getElementById('f-gpa');
+  const gpaUnknown = document.getElementById('f-gpa-unknown');
+  gpaUnknown.addEventListener('change', ()=>{
+    if(gpaUnknown.checked){
+      gpaInput.value = '';
+      gpaInput.disabled = true;
+    } else {
+      gpaInput.disabled = false;
+    }
   });
 
   function render(){
@@ -678,17 +727,25 @@
     });
   });
 
+  document.querySelectorAll('.consent-opt').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      document.querySelectorAll('.consent-opt').forEach(o=>o.classList.remove('picked'));
+      el.classList.add('picked');
+      consentVal = el.textContent.trim();
+    });
+  });
+
   document.getElementById('submitBtn').addEventListener('click', async ()=>{
     const name = document.getElementById('f-name').value.trim();
     const phone = document.getElementById('f-phone').value.trim();
     const school = document.getElementById('f-school').value;
-    const gpa = document.getElementById('f-gpa').value.trim();
+    const gpaIsUnknown = document.getElementById('f-gpa-unknown').checked;
+    const gpa = gpaIsUnknown ? '모름' : document.getElementById('f-gpa').value.trim();
     const majorHidden = document.getElementById('majorField').style.display === 'none';
     const major1 = majorHidden ? '' : document.getElementById('f-major1').value;
     const major2 = majorHidden ? '' : document.getElementById('f-major2').value;
 
-    // 필수값 확인
-    if(!name || !phone || !gpa || (!majorHidden && (!major1 || !major2))){
+    if(!name || !phone || (!gpaIsUnknown && !gpa) || (!majorHidden && (!major1 || !major2))){
       alert('필수 항목(*)을 모두 입력해 주세요.');
       return;
     }
@@ -696,10 +753,12 @@
       alert('희망 학과 1순위와 2순위는 서로 다르게 선택해 주세요.');
       return;
     }
-    const gpaNum = Number(gpa);
-    if(isNaN(gpaNum) || gpaNum < 0 || gpaNum > 300){
-      alert('내신 점수는 0~300 사이의 숫자로 입력해 주세요.');
-      return;
+    if(!gpaIsUnknown){
+      const gpaNum = Number(gpa);
+      if(isNaN(gpaNum) || gpaNum < 0 || gpaNum > 300){
+        alert('내신 점수는 0~300 사이의 숫자로 입력해 주세요.');
+        return;
+      }
     }
     if(!school){
       alert('중학교명은 목록에 뜬 항목을 클릭해서 선택해 주세요.');
@@ -710,7 +769,7 @@
     if(school === '타지역'){
       regionOther = document.getElementById('f-region-other').value.trim();
       if(!regionOther){
-        alert('타지역을 선택하셨어요. 어느 지역인지 입력해 주세요.');
+        alert('타지역을 선택하셨어요. 어느 학교인지 입력해 주세요.');
         document.getElementById('f-region-other').focus();
         return;
       }
@@ -718,6 +777,14 @@
     const phonePattern = /^01[0-9]-?[0-9]{3,4}-?[0-9]{4}$/;
     if(!phonePattern.test(phone)){
       alert('연락처 형식을 확인해 주세요. 예: 010-1234-5678');
+      return;
+    }
+    if(!consentVal){
+      alert('개인정보 수집·이용 동의 여부를 선택해 주세요.');
+      return;
+    }
+    if(consentVal === '동의안함'){
+      alert('개인정보 수집·이용에 동의하지 않으시면 접수가 어려워요. 현장 상담원에게 문의해 주세요.');
       return;
     }
     if(SCRIPT_URL.includes('여기에')){
@@ -732,7 +799,8 @@
       pathway: pathwayVal,
       major1: major1 || '(해당없음)',
       major2: major2 || '(해당없음)',
-      gpa
+      gpa,
+      consent: consentVal
     };
 
     const btn = document.getElementById('submitBtn');
@@ -742,7 +810,7 @@
     try{
       await fetch(SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // 구글 앱스 스크립트 응답을 읽지는 않지만 전송은 정상 처리됨
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
