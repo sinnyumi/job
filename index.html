@@ -488,7 +488,7 @@
 
       <div class="field-grid" id="majorField">
         <div class="field">
-          <label>희망 학과 1순위 <span class="required-dot">*</span></label>
+          <label>희망 학과 1순위 <span class="required-dot" id="major1Req">*</span></label>
           <select id="f-major1">
             <option value="">1순위를 선택하세요</option>
             <option>바이오제약과(제약)</option>
@@ -499,7 +499,7 @@
           </select>
         </div>
         <div class="field">
-          <label>희망 학과 2순위 <span class="required-dot">*</span></label>
+          <label>희망 학과 2순위 <span class="required-dot" id="major2Req">*</span></label>
           <select id="f-major2">
             <option value="">2순위를 선택하세요</option>
             <option>바이오제약과(제약)</option>
@@ -509,6 +509,9 @@
             <option>바이오코스메틱과(뷰티)</option>
           </select>
           <div class="hint">1순위와 다른 학과를 선택해 주세요.</div>
+        </div>
+        <div class="hint" id="majorOptionalHint" style="display:none; grid-column:1 / -1; margin-top:-10px;">
+          특성화고 진학 의사가 없으신 경우, 관심 있는 학과가 있을 때만 선택해 주세요 (선택 사항).
         </div>
       </div>
 
@@ -720,12 +723,19 @@
         el.classList.add('picked');
         if(row.id === 'pathPillRow'){
           pathwayVal = el.textContent.trim();
-          const isNo = pathwayVal === '아니오';
-          document.getElementById('majorField').style.display = isNo ? 'none' : 'grid';
+          updateMajorRequirement();
         }
       });
     });
   });
+
+  function updateMajorRequirement(){
+    const isNo = pathwayVal === '아니오';
+    document.getElementById('major1Req').style.display = isNo ? 'none' : 'inline';
+    document.getElementById('major2Req').style.display = isNo ? 'none' : 'inline';
+    document.getElementById('majorOptionalHint').style.display = isNo ? 'block' : 'none';
+  }
+  updateMajorRequirement();
 
   document.querySelectorAll('.consent-opt').forEach(el=>{
     el.addEventListener('click', ()=>{
@@ -741,15 +751,15 @@
     const school = document.getElementById('f-school').value;
     const gpaIsUnknown = document.getElementById('f-gpa-unknown').checked;
     const gpa = gpaIsUnknown ? '모름' : document.getElementById('f-gpa').value.trim();
-    const majorHidden = document.getElementById('majorField').style.display === 'none';
-    const major1 = majorHidden ? '' : document.getElementById('f-major1').value;
-    const major2 = majorHidden ? '' : document.getElementById('f-major2').value;
+    const majorRequired = pathwayVal !== '아니오';
+    const major1 = document.getElementById('f-major1').value;
+    const major2 = document.getElementById('f-major2').value;
 
-    if(!name || !phone || (!gpaIsUnknown && !gpa) || (!majorHidden && (!major1 || !major2))){
+    if(!name || !phone || (!gpaIsUnknown && !gpa) || (majorRequired && (!major1 || !major2))){
       alert('필수 항목(*)을 모두 입력해 주세요.');
       return;
     }
-    if(!majorHidden && major1 === major2){
+    if(major1 && major2 && major1 === major2){
       alert('희망 학과 1순위와 2순위는 서로 다르게 선택해 주세요.');
       return;
     }
