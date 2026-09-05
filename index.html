@@ -318,6 +318,17 @@
     background:var(--teal);
     color:#fff;
   }
+  .note-inline{
+    background:var(--gold-soft);
+    border:1px solid rgba(192,138,46,0.35);
+    color:var(--ink);
+    padding:11px 14px;
+    border-radius:9px;
+    font-size:12.5px;
+    line-height:1.5;
+    margin-top:12px;
+    font-weight:600;
+  }
   .consent-box{
     background:var(--teal-soft);
     border-radius:9px;
@@ -463,7 +474,6 @@
     <!-- SECTION 2 -->
     <section class="section" id="section-2">
       <div class="section-title">진학 관련 정보</div>
-      <div class="section-desc">특성화고 진학 계획과 대전생활과학고에 대한 관심도를 알려주세요.</div>
 
       <div class="field">
         <label>특성화고 진학 여부 <span class="required-dot">*</span></label>
@@ -471,6 +481,9 @@
           <div class="pill-opt picked">예</div>
           <div class="pill-opt">아니오</div>
           <div class="pill-opt">아직 미정</div>
+        </div>
+        <div class="note-inline" id="majorOptionalHint" style="display:none;">
+          희망 학과는 선택 사항이에요. 관심 있는 학과가 있을 때만 아래에서 골라주세요.
         </div>
       </div>
 
@@ -509,9 +522,6 @@
             <option>바이오코스메틱과(뷰티)</option>
           </select>
           <div class="hint">1순위와 다른 학과를 선택해 주세요.</div>
-        </div>
-        <div class="hint" id="majorOptionalHint" style="display:none; grid-column:1 / -1; margin-top:-10px;">
-          특성화고 진학 의사가 없으신 경우, 관심 있는 학과가 있을 때만 선택해 주세요 (선택 사항).
         </div>
       </div>
 
