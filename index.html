@@ -492,11 +492,11 @@
         <div class="scale-row">
           <div class="scale-opt" data-val="1"><span class="num">1</span></div>
           <div class="scale-opt" data-val="2"><span class="num">2</span></div>
-          <div class="scale-opt picked" data-val="3"><span class="num">3</span></div>
+          <div class="scale-opt" data-val="3"><span class="num">3</span></div>
           <div class="scale-opt" data-val="4"><span class="num">4</span></div>
           <div class="scale-opt" data-val="5"><span class="num">5</span></div>
         </div>
-        <div class="scale-caption"><span>전혀 관심 없음</span><span>매우 관심 있음</span></div>
+        <div class="scale-caption"><span>전혀 관심 없음</span><span>보통이에요</span><span>진학 강력 희망</span></div>
       </div>
 
       <div class="field-grid" id="majorField">
@@ -568,7 +568,7 @@
 
   let current = 1;
   const total = 2;
-  let interestVal = 3;
+  let interestVal = null;
   let pathwayVal = "예";
   let consentVal = ""; // "동의함" | "동의안함"
 
@@ -767,6 +767,10 @@
 
     if(!name || !phone || (!gpaIsUnknown && !gpa) || (majorRequired && (!major1 || !major2))){
       alert('필수 항목(*)을 모두 입력해 주세요.');
+      return;
+    }
+    if(!interestVal){
+      alert('대전생활과학고 관심 정도를 선택해 주세요.');
       return;
     }
     if(major1 && major2 && major1 === major2){
